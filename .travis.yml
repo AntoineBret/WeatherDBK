@@ -48,9 +48,4 @@ before_script:
   - chmod +x gradlew
 
 script:
-  - ./gradlew clean assembleDebug assembleRelease 
-  # Renaming folder and files of reports so codecov.io can find it
-  - mv app/build/reports/jacoco/createFreeDebugUnitTestCoverageReport app/build/reports/jacoco/jacocoTestDebugUnitTestReport
-
-  # Codecov.io
-  - bash <(curl -s https://codecov.io/bash)
+  - ./gradlew clean assembleDebug assembleRelease
