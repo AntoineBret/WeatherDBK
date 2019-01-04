@@ -48,4 +48,12 @@ before_script:
   - chmod +x gradlew
 
 script:
-  - ./gradlew clean assembleDebug assembleRelease
+  - ./gradlew clean assembleDebug assembleRelease createStubDebugUnitTestCoverageReport
+ # Renaming folder and files of reports so codecov.io can find it
+   - mv app/build/reports/jacoco/createStubDebugUnitTestCoverageReport app/build/reports/jacoco/jacocoTestDebugUnitTestReport
+   - mv app/build/reports/jacoco/jacocoTestDebugUnitTestReport/createStubDebugUnitTestCoverageReport.xml app/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml
+   # Codecov.io
+   - bash <(curl -s https://codecov.io/bash)
+
+  # Codecov.io
+  - bash <(curl -s https://codecov.io/bash)
