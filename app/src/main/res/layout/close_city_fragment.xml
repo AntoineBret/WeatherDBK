@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="16dp">
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cityName"
+    android:textAllCaps="true"
+    tools:text="Cool"
+    android:textAlignment="center"
+    android:textSize="16sp"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/cityTemp"
+    android:textSize="35sp"
+    app:layout_constraintTop_toBottomOf="@+id/cityName"
+    tools:text="20°"/>
+
+  <TextView
+    android:id="@+id/cityDetails"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Détails"
+    app:layout_constraintStart_toEndOf="@id/cityTemp"
+    app:layout_constraintTop_toTopOf="@+id/cityTemp"
+    android:layout_marginLeft="12dp"/>
+
+  <View
+    android:layout_width="0dp"
+    android:layout_height="1dp"
+    android:background="@color/gray"
+    app:layout_constraintStart_toStartOf="@id/cityDetails"
+    android:id="@+id/detailsSeparator"
+    app:layout_constraintTop_toBottomOf="@id/cityDetails"
+    app:layout_constraintEnd_toEndOf="parent"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/citySunriseText"
+    android:text="Sunrise"
+    android:textAllCaps="true"
+    app:layout_constraintTop_toBottomOf="@+id/detailsSeparator"
+    app:layout_constraintStart_toStartOf="@id/cityDetails"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/citySunrise"
+    tools:text="7h"
+    android:layout_marginStart="8dp"
+    app:layout_constraintStart_toEndOf="@+id/barrier"
+    app:layout_constraintTop_toTopOf="@+id/citySunriseText"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/citySunsetText"
+    android:text="Sunset"
+    android:textAllCaps="true"
+    app:layout_constraintTop_toBottomOf="@+id/citySunriseText"
+    app:layout_constraintStart_toStartOf="@id/cityDetails"
+  />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/citySunset"
+    tools:text="20h"
+    android:layout_marginStart="8dp"
+    app:layout_constraintStart_toEndOf="@+id/barrier"
+    app:layout_constraintTop_toTopOf="@+id/citySunsetText"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/cityHumidityText"
+    android:text="Humidity"
+    android:textAllCaps="true"
+    app:layout_constraintTop_toBottomOf="@+id/citySunset"
+    app:layout_constraintStart_toStartOf="@id/cityDetails"
+  />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/cityHumidity"
+    tools:text="45%"
+    android:layout_marginStart="8dp"
+    app:layout_constraintStart_toEndOf="@+id/barrier"
+    app:layout_constraintTop_toTopOf="@+id/cityHumidityText"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/cityWindText"
+    android:text="Wind"
+    android:textAllCaps="true"
+    app:layout_constraintTop_toBottomOf="@+id/cityHumidityText"
+    app:layout_constraintStart_toStartOf="@id/cityHumidityText"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/cityWind"
+    tools:text="20km/h"
+    android:layout_marginStart="8dp"
+    app:layout_constraintStart_toEndOf="@+id/barrier"
+    app:layout_constraintTop_toTopOf="@+id/cityWindText"/>
+
+  <android.support.constraint.Barrier
+    android:id="@+id/barrier"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:barrierDirection="end"
+    app:constraint_referenced_ids="cityWindText,cityHumidityText,citySunsetText,citySunriseText "/>
+
+  <android.support.constraint.Group
+    android:id="@+id/group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:constraint_referenced_ids="cityWindText,cityHumidityText,citySunsetText,citySunriseText,cityDetails,detailsSeparator"/>
+
+  <ProgressBar
+    android:id="@+id/progressBar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+  />
+
+</android.support.constraint.ConstraintLayout>
