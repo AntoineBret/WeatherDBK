@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions.fitCenterTransform
 import com.hadeso.moviedb.di.Injectable
 import com.wdb.breta.weatherdbk.R
 import kotlinx.android.synthetic.main.close_city_fragment.*
@@ -52,10 +54,17 @@ class CloseCityFragment : Fragment(), Injectable {
     super.onActivityCreated(savedInstanceState)
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(CloseCityViewModel::class.java)
 
+    //get weather data from OpenWeatherMap
     viewModel.cityWeatherLiveData().observe(this, Observer { cityWeather ->
       cityWeather?.let {
         setToolbarTitle(it)
         showWeatherData(it)
+      }
+    })
+
+    //get picture from UnsplashAPI
+    viewModel.cityPictureLiveData().observe(this, Observer { cityPicture ->
+      cityPicture?.let {
         addBackgroundPicture(it)
       }
     })
@@ -111,8 +120,12 @@ class CloseCityFragment : Fragment(), Injectable {
     cityWind.text = closeCityViewData.wind + "km/h"
   }
 
-  private fun addBackgroundPicture(closeCityViewData: CloseCityViewData) {
-
+  private fun addBackgroundPicture(unsplashPictureViewData: UnsplashPictureViewData) {
+    Glide
+      .with(this)
+      .load(unsplashPictureViewData.query)
+      .apply(fitCenterTransform())
+      .into(background)
   }
 
   private fun showLoadingDialog(isLoading: Boolean) {

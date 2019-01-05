@@ -4,6 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.location.Location
 import com.wdb.breta.weatherdbk.model.*
 import com.wdb.breta.weatherdbk.service.LocationService
+import com.wdb.breta.weatherdbk.service.RemotePictureService
 import com.wdb.breta.weatherdbk.service.RemoteWeatherService
 import com.wdb.breta.weatherdbk.ui.close_cities.CloseCityViewModel
 import io.reactivex.Single
@@ -29,6 +30,7 @@ class CloseCityViewModelUnitTest {
   //Mock
   private val locationService = Mockito.mock(LocationService::class.java)
   private val apiService = Mockito.mock(RemoteWeatherService::class.java)
+  private val unsplashService = Mockito.mock(RemotePictureService::class.java)
 
   private val cityWeatherMock = CityWeather(
     "Test",
@@ -43,7 +45,7 @@ class CloseCityViewModelUnitTest {
   )
 
   //Class under test
-  private val viewModel = Mockito.spy(CloseCityViewModel(locationService, apiService))
+  private val viewModel = Mockito.spy(CloseCityViewModel(locationService, apiService, unsplashService))
 
   @Before
   fun setup() {

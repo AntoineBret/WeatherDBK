@@ -1,5 +1,6 @@
 package com.wdb.breta.weatherdbk.service
 
+import com.wdb.breta.weatherdbk.model.CityPicture
 import com.wdb.breta.weatherdbk.model.CityWeather
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -24,10 +25,4 @@ interface RemoteWeatherService {
     @Query("units") units: String,
     @Query("APPID") apiKey: String
   ): Single<CityWeather>
-
-  @GET("/search/photos")
-  abstract fun getBackgroundScreen(
-    @Query("client_id") client_id: String,
-    @Query("query") query: String
-    ): Single<CityWeather>
 }
