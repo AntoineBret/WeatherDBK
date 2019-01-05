@@ -7,7 +7,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface WeatherDBKAppService {
+interface RemoteWeatherService {
 
   @GET("weather")
   abstract fun getCityByName(
@@ -24,4 +24,10 @@ interface WeatherDBKAppService {
     @Query("units") units: String,
     @Query("APPID") apiKey: String
   ): Single<CityWeather>
+
+  @GET("/search/photos")
+  abstract fun getBackgroundScreen(
+    @Query("client_id") client_id: String,
+    @Query("query") query: String
+    ): Single<CityWeather>
 }

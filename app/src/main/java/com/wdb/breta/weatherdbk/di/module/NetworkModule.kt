@@ -1,17 +1,17 @@
 package com.wdb.breta.weatherdbk.di.module
 
 import com.squareup.moshi.Moshi
-import com.wdb.breta.weatherdbk.BuildConfig
-import com.wdb.breta.weatherdbk.service.WeatherDBKAppService
+import com.wdb.breta.weatherdbk.service.RemotePictureService
+import com.wdb.breta.weatherdbk.service.RemoteWeatherService
 import dagger.Module
 import dagger.Provides
-import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 const val TIMEOUT_SECONDS = 20
@@ -35,19 +35,34 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  fun provideMovieDBService(okHttpClient: OkHttpClient, baseUrl: HttpUrl, moshi: Moshi): WeatherDBKAppService {
-    return Retrofit.Builder()
-      .client(okHttpClient)
+  @Named("WEATHER_API")
+  fun provideWeatherService(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
+    Retrofit.Builder()
+      .baseUrl(NetworkConfig.BASE_API_WEATHER)
       .addConverterFactory(MoshiConverterFactory.create(moshi))
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-      .baseUrl(baseUrl)
+      .client(okHttpClient)
       .build()
-      .create(WeatherDBKAppService::class.java)
-  }
+
+  @Provides
+  @Singleton
+  @Named("PICTURE_API")
+  fun provideUnsplashService(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
+    Retrofit.Builder()
+      .baseUrl(NetworkConfig.BASE_API_UNSPLASH)
+      .addConverterFactory(MoshiConverterFactory.create(moshi))
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+      .client(okHttpClient)
+      .build()
+
+  @Provides
+  @Singleton
+  fun provideWeatherBaseUrl(@Named("WEATHER_API") retrofit: Retrofit): RemoteWeatherService =
+    retrofit.create(RemoteWeatherService::class.java)
 
   @Singleton
   @Provides
-  fun provideBaseUrl(): HttpUrl {
-    return HttpUrl.parse(BuildConfig.GATEWAY_BASE_ENDPOINT)!!
-  }
+  fun provideUnsplashBaseUrl(@Named("PICTURE_API") retrofit: Retrofit): RemotePictureService =
+    retrofit.create(RemotePictureService::class.java)
 }
+

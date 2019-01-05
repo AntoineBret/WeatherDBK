@@ -24,14 +24,18 @@ android {
   productFlavors {
     stub {
       applicationId "com.wdb.breta.weatherdbk.stub"
-      buildConfigField "String", "GATEWAY_BASE_ENDPOINT", "\"http://api.openweathermap.org/data/2.5/\""
+      buildConfigField "String", "GATEWAY_BASE_ENDPOINT_WEATHER", "\"http://api.openweathermap.org/data/2.5/\""
       buildConfigField "String", "WEATHER_API_KEY", "\"61e50c217f20d201d017099e7f758c8d\""
+      buildConfigField "String", "GATEWAY_BASE_ENDPOINT_UNSPLASH", "\"https://api.unsplash.com/photos/\""
+      buildConfigField "String", "UNSPLASH_CLIENT_ID", "\"9393c0e5118450c6295d8e74437d02f1b74905077c872284cf8fba1269ebc190\""
       dimension = "networkEnv"
     }
     dev {
       applicationId "com.wdb.breta.weatherdbk"
-      buildConfigField "String", "GATEWAY_BASE_ENDPOINT", "\"http://api.openweathermap.org/data/2.5/\""
+      buildConfigField "String", "GATEWAY_BASE_ENDPOINT_WEATHER", "\"http://api.openweathermap.org/data/2.5/\""
       buildConfigField "String", "WEATHER_API_KEY", "\"61e50c217f20d201d017099e7f758c8d\""
+      buildConfigField "String", "GATEWAY_BASE_ENDPOINT_UNSPLASH", "\"https://api.unsplash.com/photos/\""
+      buildConfigField "String", "UNSPLASH_CLIENT_ID", "\"9393c0e5118450c6295d8e74437d02f1b74905077c872284cf8fba1269ebc190\""
       dimension = "networkEnv"
     }
   }

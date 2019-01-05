@@ -7,7 +7,7 @@ import android.location.Location
 import com.wdb.breta.weatherdbk.BuildConfig
 import com.wdb.breta.weatherdbk.model.CityWeather
 import com.wdb.breta.weatherdbk.service.LocationService
-import com.wdb.breta.weatherdbk.service.WeatherDBKAppService
+import com.wdb.breta.weatherdbk.service.RemoteWeatherService
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class CloseCityViewModel @Inject constructor(
   private val locationService: LocationService,
-  private val apiService: WeatherDBKAppService
+  private val apiService: RemoteWeatherService
 ) : ViewModel() {
 
   private val disposable = CompositeDisposable()

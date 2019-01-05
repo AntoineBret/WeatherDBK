@@ -4,7 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.location.Location
 import com.wdb.breta.weatherdbk.model.*
 import com.wdb.breta.weatherdbk.service.LocationService
-import com.wdb.breta.weatherdbk.service.WeatherDBKAppService
+import com.wdb.breta.weatherdbk.service.RemoteWeatherService
 import com.wdb.breta.weatherdbk.ui.close_cities.CloseCityViewModel
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -28,7 +28,7 @@ class CloseCityViewModelUnitTest {
 
   //Mock
   private val locationService = Mockito.mock(LocationService::class.java)
-  private val apiService = Mockito.mock(WeatherDBKAppService::class.java)
+  private val apiService = Mockito.mock(RemoteWeatherService::class.java)
 
   private val cityWeatherMock = CityWeather(
     "Test",

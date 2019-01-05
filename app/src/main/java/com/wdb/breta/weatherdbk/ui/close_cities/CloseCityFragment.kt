@@ -9,9 +9,8 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.app.AppCompatActivity
+import android.view.*
 import com.hadeso.moviedb.di.Injectable
 import com.wdb.breta.weatherdbk.R
 import kotlinx.android.synthetic.main.close_city_fragment.*
@@ -30,7 +29,23 @@ class CloseCityFragment : Fragment(), Injectable {
   private lateinit var viewModel: CloseCityViewModel
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    setHasOptionsMenu(true)
     return inflater.inflate(R.layout.close_city_fragment, container, false)
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    inflater.inflate(R.menu.menu, menu)
+    super.onCreateOptionsMenu(menu, inflater)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    return (when(item.itemId) {
+      R.id.action_add -> {
+        true
+      }
+      else ->
+        super.onOptionsItemSelected(item)
+    })
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -39,7 +54,9 @@ class CloseCityFragment : Fragment(), Injectable {
 
     viewModel.cityWeatherLiveData().observe(this, Observer { cityWeather ->
       cityWeather?.let {
+        setToolbarTitle(it)
         showWeatherData(it)
+        addBackgroundPicture(it)
       }
     })
 
@@ -80,6 +97,11 @@ class CloseCityFragment : Fragment(), Injectable {
     }
   }
 
+  private fun setToolbarTitle(closeCityViewData: CloseCityViewData) {
+    val actionBar = (activity as AppCompatActivity).supportActionBar
+    actionBar!!.title = closeCityViewData.name
+  }
+
   private fun showWeatherData(closeCityViewData: CloseCityViewData) {
     cityName.text = closeCityViewData.name
     cityTemp.text = closeCityViewData.temp + "°"
@@ -87,6 +109,10 @@ class CloseCityFragment : Fragment(), Injectable {
     citySunset.text = closeCityViewData.sunset
     cityHumidity.text = closeCityViewData.humidity
     cityWind.text = closeCityViewData.wind + "km/h"
+  }
+
+  private fun addBackgroundPicture(closeCityViewData: CloseCityViewData) {
+
   }
 
   private fun showLoadingDialog(isLoading: Boolean) {

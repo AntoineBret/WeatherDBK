@@ -8,6 +8,7 @@ import com.wdb.breta.weatherdbk.ui.close_cities.CloseCityFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+
+    //init toolbar
+    setSupportActionBar(toolbar)
 
     if (savedInstanceState == null) {
       val closeCityFragment = CloseCityFragment.newInstance()
