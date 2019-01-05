@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions.centerInsideTransform
 import com.bumptech.glide.request.RequestOptions.fitCenterTransform
 import com.hadeso.moviedb.di.Injectable
 import com.wdb.breta.weatherdbk.R
@@ -123,8 +124,8 @@ class CloseCityFragment : Fragment(), Injectable {
   private fun addBackgroundPicture(unsplashPictureViewData: UnsplashPictureViewData) {
     Glide
       .with(this)
-      .load(unsplashPictureViewData.query)
-      .apply(fitCenterTransform())
+      .load(unsplashPictureViewData.regular)
+      .apply(centerInsideTransform())
       .into(background)
   }
 

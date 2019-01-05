@@ -19,7 +19,6 @@ import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import retrofit2.http.Url
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,30 +49,34 @@ class CloseCityViewModel @Inject constructor(
 
   fun init() {
     getClosestCityWeather()
-    getClosestCityPicture()
   }
 
   private fun getClosestCityWeather() {
     loadingLiveData.value = true
-    disposable.add(getLocation()
-      .subscribeOn(Schedulers.io())
-      .observeOn(Schedulers.io())
-      .flatMap { getCityByLocation(it) }
-      .map { modelToViewWeatherData(it) }
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe({ cityWeather ->
-        Timber.d(cityWeather.toString())
-        loadingLiveData.value = false
-        cityWeatherLiveData.value = cityWeather
-      }, {
-        Timber.e(it)
-      })
-    )
+    disposable
+      //Get location from location.servicefor next call
+      .add(getLocation()
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.io())
+        //send request
+        .flatMap { getCityByLocation(it) }
+        .map { modelToViewWeatherData(it) }
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe({ cityWeather ->
+          Timber.d(cityWeather.toString())
+          loadingLiveData.value = false
+          cityWeatherLiveData.value = cityWeather
+        }, {
+          Timber.e(it)
+        })
+      )
+    getClosestCityPicture()
   }
 
   private fun getClosestCityPicture() {
     loadingLiveData.value = true
-    disposable.add(getCityByName(CityPicture("Sydney", "portrait"))
+    //todo make method for get selected city (weatherCity.name) & create const for "portrait" / "paysage"
+    disposable.add(getCityByName(CityPicture("Sydney", "portrait", Urls("", "", "", "", "")))
       .subscribeOn(Schedulers.io())
       .observeOn(Schedulers.io())
       .flatMap { getCityByName(it) }
