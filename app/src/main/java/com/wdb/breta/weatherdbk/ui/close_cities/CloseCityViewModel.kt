@@ -7,7 +7,6 @@ import android.location.Location
 import com.wdb.breta.weatherdbk.BuildConfig
 import com.wdb.breta.weatherdbk.model.CityPicture
 import com.wdb.breta.weatherdbk.model.CityWeather
-import com.wdb.breta.weatherdbk.model.Urls
 import com.wdb.breta.weatherdbk.service.LocationService
 import com.wdb.breta.weatherdbk.service.RemotePictureService
 import com.wdb.breta.weatherdbk.service.RemoteWeatherService
@@ -49,6 +48,7 @@ class CloseCityViewModel @Inject constructor(
 
   fun init() {
     getClosestCityWeather()
+    getClosestCityPicture()
   }
 
   private fun getClosestCityWeather() {
@@ -70,26 +70,6 @@ class CloseCityViewModel @Inject constructor(
           Timber.e(it)
         })
       )
-    getClosestCityPicture()
-  }
-
-  private fun getClosestCityPicture() {
-    loadingLiveData.value = true
-    //todo make method for get selected city (weatherCity.name) & create const for "portrait" / "paysage"
-    disposable.add(getCityByName(CityPicture("Sydney", "portrait", Urls("", "", "", "", "")))
-      .subscribeOn(Schedulers.io())
-      .observeOn(Schedulers.io())
-      .flatMap { getCityByName(it) }
-      .map { modeltoViewPictureData(it) }
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe({ cityPicture ->
-        Timber.d(cityPicture.toString())
-        loadingLiveData.value = false
-        cityPictureLiveData.value = cityPicture
-      }, {
-        Timber.e(it)
-      })
-    )
   }
 
   private fun getLocation(): Single<Location> {
@@ -105,12 +85,24 @@ class CloseCityViewModel @Inject constructor(
     )
   }
 
-  private fun getCityByName(cityPicture: CityPicture): Single<CityPicture> {
-    return unsplashApiService.getBackgroundScreen(
-      cityPicture.query,
-      cityPicture.orientation,
+  private fun getClosestCityPicture() {
+    unsplashApiService.getRandomPictureByCityName(
+//      cityPicture.cityWeather.name,
+      "Sydney",
+      "portrait",
       BuildConfig.UNSPLASH_CLIENT_ID
     )
+      .subscribeOn(Schedulers.io())
+      .observeOn(Schedulers.io())
+      .map { modeltoViewPictureData(it) }
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe({ cityPicture ->
+        Timber.d(cityPicture.toString())
+        loadingLiveData.value = false
+        cityPictureLiveData.value = cityPicture
+      }, {
+        Timber.e(it)
+      })
   }
 
   private fun modelToViewWeatherData(cityWeather: CityWeather): CloseCityViewData {
@@ -134,6 +126,7 @@ class CloseCityViewModel @Inject constructor(
   private fun modeltoViewPictureData(cityPicture: CityPicture): UnsplashPictureViewData {
     return UnsplashPictureViewData(
       cityPicture.urls.regular
+
     )
   }
 }

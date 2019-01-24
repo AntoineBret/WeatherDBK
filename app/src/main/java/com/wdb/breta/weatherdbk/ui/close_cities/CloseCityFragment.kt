@@ -70,6 +70,7 @@ class CloseCityFragment : Fragment(), Injectable {
       }
     })
 
+    //set ProgressBar
     viewModel.loadingLiveData().observe(this, Observer { isLoading ->
       isLoading?.let {
         showLoadingDialog(it)
